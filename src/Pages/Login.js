@@ -1,6 +1,4 @@
 import React from "react";
-// import { Container, TextField, Typography, Button } from "@material-ui/core";
-// import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { useState,useContext } from "react";
 import { useHistory } from 'react-router-dom';
@@ -35,6 +33,8 @@ export default function Login() {
     axios
       .post("http://localhost:9000/api/login", detail)
       .then((res) => {
+        //context.login(res.data);
+        //console.log(res.data)
         if (res.data.success) {
          
          if(res.data.flag)
@@ -81,6 +81,7 @@ export default function Login() {
   return (
     <>
     <ToastContainer />
+    <h1>Admin</h1>
     <div className="container jumbotron mt-4">
       <form onSubmit={onLogin}>
         <div class="form-group">
