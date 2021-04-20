@@ -146,8 +146,8 @@ export default function Dashboard() {
             <main className={classes.content}>
               <Toolbar />
               <Typography paragraph>
-                  <Homefragment/>
-                    {/* <Productfragment /> */}
+                  {/* <Homefragment/> */}
+                    <Productfragment />
                     {/* <Categoryfragment /> */}
                     {/* <Usersdetail/> */}
                     {/* <Feedback /> */}

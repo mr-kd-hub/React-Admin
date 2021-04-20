@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -6,6 +6,13 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import Addproduct from "./Addproduct";
+import axios from "axios";
+
+const cssStyle = {
+  width: "130px",
+  height: "265px",
+};
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,7 +58,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Productfragment() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+  const [state, setState] = useState();
+  useEffect(() => {
+    axios
+      .get("http://localhost:9000/api/showProduct")
+      .then((res) => {
+        // console.log(res.data)
+        if (res.data.msg === "Success") {
+          setState(res.data.product);
+        }
+      })
+      .catch((err) => {
+        console.log("problem in login : " + err);
+      });
+  }, []);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -74,124 +94,51 @@ export default function Productfragment() {
       </AppBar>
       <TabPanel value={value} index={0}>
         <Box>
-              {/* Display */}
-          <div className="card" style={{ width: "18rem" }}>
-            <div className="card-body">
-              <h5 className="card-title">Special title treatment</h5>
-              <p className="card-text">
-                With supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <a href="#" className="btn btn-info mr-2">
-                Edit
-              </a>
-              <a href="#" className="btn btn-primary mr-2">
-                Deactive
-              </a>
-              <a href="#" className="btn btn-danger">
-                Delete
-              </a>
-            </div>
+          {/* Display */}
+          <div className="container">
+            <section className="lattest-product-area pb-40 category-list">
+              <div className="row">
+                {state && state.map((cardInfo, index) => {
+                    return (
+                      <>
+                      <div className="col-sm-4 single-product mb-4">
+                        <div className="card" style={{ width: "18rem" }}>
+                          <div className="card-body">
+                            <iframe
+                              className="img-fluid d-block mx-auto"
+                              style={cssStyle}
+                              marginwidth="0"
+                              marginheight="0"
+                              scrolling="no"
+                              frameborder="0"
+                              src={cardInfo.flipkart_link}
+                            ></iframe>
+                            <div className="card-text">
+                              <a href="#" className="btn btn-info mr-2">
+                                Edit
+                              </a>
+                              <a href="#" className="btn btn-primary mr-2">
+                                Deactive
+                              </a>
+                              <a href="#" className="btn btn-danger">
+                                Delete
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      </>
+                    );
+                  })}
+              </div>
+            </section>
           </div>
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-            {/* Add product */}
+        {/* Add product */}
         <Box>
-          <div className="container">
-            <form method="post">
-              <div class="form-group">
-                <label for="exampleFormControlInput1">Name</label>
-                <input
-                  name="name"
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder="Shirt"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleFormControlTextarea1">Product Link</label>
-                <textarea
-                  name="productlink"
-                  class="form-control"
-                  id="exampleFormControlTextarea1"
-                  rows="3"
-                ></textarea>
-              </div>
-              <div class="form-group">
-                <label for="exampleFormControlSelect2">Category</label>
-                <select
-                  name="category"
-                  class="form-control"
-                  id="exampleFormControlSelect2"
-                >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label class="form-check-label mr-4" for="inlineRadio1">
-                  Status
-                </label>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="Status"
-                    id="inlineRadio1"
-                    value="true"
-                  />
-                  <label class="form-check-label" for="inlineRadio1">
-                    Active
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="Status"
-                    id="inlineRadio2"
-                    value="false"
-                  />
-                  <label class="form-check-label" for="inlineRadio2">
-                    Deactive
-                  </label>
-                </div>
-              </div>
-              <div className="form-group">
-                <label class="form-check-label mr-2" for="inlineRadio1">
-                  Feature To Home
-                </label>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="feature_to_home"
-                    id="inlineRadio1"
-                    value="true"
-                  />
-                  <label class="form-check-label" for="inlineRadio1">
-                    Yes
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="feature_to_home"
-                    id="inlineRadio2"
-                    value="false"
-                  />
-                  <label class="form-check-label" for="inlineRadio2">
-                    No
-                  </label>
-                </div>
-              </div>
-              <button class="btn btn-primary">Add Product</button>
-            </form>
-          </div>
+          <Addproduct />
         </Box>
       </TabPanel>
     </div>
