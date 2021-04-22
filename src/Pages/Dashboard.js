@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import { Redirect, Route, Switch } from "react-router";
+import React, { useContext,useState  } from "react";
+import { Redirect } from "react-router";
 import { AuthContext } from "../context/auth";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -19,13 +18,11 @@ import DashboardIcon from "@material-ui/icons/DashboardSharp";
 import CategorySharpIcon from "@material-ui/icons/CategorySharp";
 import FeedbackSharpIcon from "@material-ui/icons/FeedbackSharp";
 import LogoutIcon from "@material-ui/icons/ExitToAppSharp";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Badge, IconButton } from "@material-ui/core";
-
-import Homefragment from '../Fragments/Homefragment';
+import Homefragment from "../Fragments/Homefragment";
 import Productfragment from "../Fragments/Productfragment";
 import Categoryfragment from "../Fragments/Categoryfragment";
-import { BrowserRouter } from "react-router-dom";
 import Usersdetail from "../Fragments/Usersdetail";
 import Feedback from "../Fragments/Feedback";
 
@@ -55,15 +52,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
-  const { user } = useContext(AuthContext);
+  const { user,logout } = useContext(AuthContext);
   const classes = useStyles();
-  //console.log(AuthContext)
+  const [fragment,setFregment] = useState("HOME")
+  const loadFragment=()=>
+  {
+    switch(fragment)
+    {
+      case "HOME":
+        return <Homefragment />
 
+      case "PRODUCTS":
+        return <Productfragment/>
+
+      case "CATEGORIES":
+        return <Categoryfragment/>
+
+      case "USERS":
+        return <Usersdetail />
+      
+      case "FEEDBACK":
+        return <Feedback/>
+
+      default:
+        break;
+
+    }
+  }
   return (
     <>
       {user ? (
         <>
-       
           <div className={classes.root}>
             <CssBaseline />
             {/* navigation  */}
@@ -89,7 +108,7 @@ export default function Dashboard() {
               <Toolbar />
               <div className={classes.drawerContainer}>
                 <List>
-                  <ListItem button key="Dashboard">
+                  <ListItem button onClick={e=>setFregment("HOME")}>
                     <ListItemIcon>
                       <DashboardIcon />
                     </ListItemIcon>
@@ -97,7 +116,7 @@ export default function Dashboard() {
                   </ListItem>
                 </List>
                 <List>
-                  <ListItem button key="Products">
+                  <ListItem button onClick={e=>setFregment("PRODUCTS")}>
                     <ListItemIcon>
                       <Addproduct />
                     </ListItemIcon>
@@ -105,7 +124,7 @@ export default function Dashboard() {
                   </ListItem>
                 </List>
                 <List>
-                  <ListItem button key="Category">
+                  <ListItem button onClick={e=>setFregment("CATEGORIES")}>
                     <ListItemIcon>
                       <CategorySharpIcon />
                     </ListItemIcon>
@@ -114,7 +133,7 @@ export default function Dashboard() {
                 </List>
                 <Divider />
                 <List>
-                  <ListItem button key="Users">
+                  <ListItem button onClick={e=>setFregment("USERS")}>
                     <ListItemIcon>
                       <UsersIcon />
                     </ListItemIcon>
@@ -122,7 +141,7 @@ export default function Dashboard() {
                   </ListItem>
                 </List>
                 <List>
-                  <ListItem button key="Feedback">
+                  <ListItem button onClick={e=>setFregment("FEEDBACK")}>
                     <ListItemIcon>
                       <FeedbackSharpIcon />
                     </ListItemIcon>
@@ -131,7 +150,7 @@ export default function Dashboard() {
                 </List>
                 <Divider />
                 <List>
-                  <ListItem button key="Logout">
+                  <ListItem button key="Logout" onClick={logout}> 
                     <ListItemIcon>
                       <LogoutIcon />
                     </ListItemIcon>
@@ -146,13 +165,8 @@ export default function Dashboard() {
             <main className={classes.content}>
               <Toolbar />
               <Typography paragraph>
-                  {/* <Homefragment/> */}
-                    <Productfragment />
-                    {/* <Categoryfragment /> */}
-                    {/* <Usersdetail/> */}
-                    {/* <Feedback /> */}
+               {loadFragment()}
               </Typography>
-             
             </main>
             {/* Main content end */}
           </div>

@@ -7,6 +7,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Addcategory from "./Addcategory";
+import Categories from "./Categories";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,24 +77,7 @@ export default function Homefragment() {
       <TabPanel value={value} index={0}>
         <Box>
           {/* Display */}
-          <div className="card" style={{ width: "18rem" }}>
-            <div className="card-body">
-              <h5 className="card-title">Special title treatment</h5>
-              <p className="card-text">
-                With supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <a href="#" className="btn btn-info mr-2">
-                Edit
-              </a>
-              <a href="#" className="btn btn-primary mr-2">
-                Deactive
-              </a>
-              <a href="#" className="btn btn-danger">
-                Delete
-              </a>
-            </div>
-          </div>
+          <Categories />
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>

@@ -66,6 +66,8 @@ function Addproduct() {
             draggable: true,
             progress: undefined,
           });
+          setName("")
+          setProductlink("")
         } else {
           //  alert("not done")
           toast.error(res.data.msg, {
@@ -82,8 +84,7 @@ function Addproduct() {
       .catch((err) => {
         console.log("problem in Contactup API CALLED" + err);
       });
-      setName("")
-      setProductlink("")
+     
   }
   return (
     <div>

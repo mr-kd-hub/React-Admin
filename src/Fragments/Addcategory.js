@@ -6,10 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Addcategory() {
     const [status,setStatus] = useState();
-    const [feature_to_home,setFeaturetohome] = useState();
     const [title,setTitle] = useState();
     const [categorylink,setCategorylink] = useState();
-    const [file,setFile] = useState();
+    const [image,setFile] = useState();
   
 
     function onFileChange(obj)
@@ -24,19 +23,60 @@ function Addcategory() {
     {
         setTitle(obj.target.value)
     }
-    function onFeature_to_homeChange(obj)
-    {
-        setFeaturetohome(obj.target.value)
-    }
     function onStatusChange(obj)
     {
         setStatus(obj.target.value)
+    }
+    function onSubmitt(obj)
+    {
+      obj.preventDefault();
+      const detail ={
+        title:title,
+        image:image,
+        link:categorylink,
+        status:status,
+        feature_to_home : true,
+      }
+      axios
+      .post("http://localhost:9000/api/addCategory",detail)
+      .then((res)=>{
+          if(res.data.success)
+          {
+            toast.success(res.data.msg, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setTitle("")
+            setFile("")
+            setCategorylink("")
+          }
+          else
+          {
+            toast.error(res.data.msg, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+      })
+      .catch((err)=>{
+        console.log("Error in add category api call..")
+      });
     }
   return (      
     <div>
         <ToastContainer />
       <div className="container">
-        <form method="post">
+        <form method="post" onSubmit={onSubmitt}>
           <div class="form-group">
             <label for="exampleFormControlInput1">Title</label>
             <input
@@ -53,13 +93,13 @@ function Addcategory() {
             <label for="exampleFormControlFile1">Image</label>
             <input
               onChange={onFileChange}
-              type="file"
+              type="text"
               class="form-control-file"
-              id="exampleFormControlFile1"
-              value={file}
+              placeholder="Add Image Link"
+              value={image}
               name="image"
             />
-            {file}
+            {image}
           </div>
           <div class="form-group">
             <label for="exampleFormControlTextarea1">
@@ -104,39 +144,6 @@ function Addcategory() {
                 Deactive
               </label>
             </div>
-            {status}
-          </div>
-          <div className="form-group">
-            <label class="form-check-label mr-2" for="inlineRadio1">
-              Feature To Home
-            </label>
-            <div class="form-check form-check-inline">
-              <input
-              onChange={onFeature_to_homeChange}
-                class="form-check-input"
-                type="radio"
-                name="feature_to_home"
-                id="inlineRadio1"
-                value="true"
-              />
-              <label class="form-check-label" for="inlineRadio1">
-                Yes
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-              onChange={onFeature_to_homeChange}
-                class="form-check-input"
-                type="radio"
-                name="feature_to_home"
-                id="inlineRadio2"
-                value="false"
-              />
-              <label class="form-check-label" for="inlineRadio2">
-                No
-              </label>
-            </div>
-            {feature_to_home}
           </div>
           <button class="btn btn-primary">Add Category</button>
         </form>

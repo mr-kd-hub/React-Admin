@@ -1,54 +1,47 @@
-import React from 'react';
-import { MDBDataTableV5 } from 'mdbreact';
+import React, { useEffect } from "react";
+import { MDBDataTableV5 } from "mdbreact";
+import axios from "axios";
 
 export default function Usersdetail() {
-  const [datatable, setDatatable] = React.useState({
-      //fields
-    columns: [
-      {
-        label: 'Name',
-        field: 'name',
-        width: 150,
-        attributes: {
-          'aria-controls': 'DataTable',
-          'aria-label': 'Name',
-        },
-      },
-      {
-        label: 'Email',
-        field: 'email',
-        width: 270,
-      },
-      {
-        label: 'Date Of Join',
-        field: 'doj',
-        width: 200,
-      }
-    ], 
-    //data
-    rows: [
-      {
-        name: 'Tiger Nixon',
-        email: 'System Architect',
-        doj: 'Edinburgh'
-      },
-      {
-        name: 'Tiger Nixon',
-        email: 'System Architect',
-        doj: 'Edinburgh'
-      },
-      {
-        name: 'Tiger Nixon',
-        email: 'System Architect',
-        doj: 'Edinburgh'
-      },
-      {
-        name: 'Tiger Nixon',
-        email: 'System Architect',
-        doj: 'Edinburgh'
-      },
-    ],
-  });
+  const [datatable, setDatatable] = React.useState();
+  useEffect(() => {
+    axios
+      .get("http://localhost:9000/api/users")
+      .then((res) => {
+        setDatatable(res.data.userData);
+      })
+      .catch((err) => {});
+  }, []);
 
-  return <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={datatable} />;
+  return (
+    <>
+    <h2>Customers</h2>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Fullname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date Of Join</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            datatable &&
+            datatable.map((data, index) => {
+            return (
+              <>
+                <tr>
+                  <th scope="row">{data._id}</th>
+                  <td>{data.fullname}</td>
+                  <td>{data.email}</td>
+                  <td>{data.date}</td>
+                </tr>
+              </>
+            )
+          })}
+        </tbody>
+      </table>
+    </>
+  );
 }
