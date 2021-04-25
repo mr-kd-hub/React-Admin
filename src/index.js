@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { createMuiTheme,ThemeProvider } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const theme = createMuiTheme({
   palette: {

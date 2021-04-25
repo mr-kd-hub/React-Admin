@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 
 const cssStyle = {
   width: "130px",
@@ -10,6 +10,7 @@ const cssStyle = {
 };
 
 function Products() {
+  const history = useHistory();
   const [state, setState] = useState();
   useEffect(() => {
     axios
@@ -34,12 +35,13 @@ function Products() {
       b  = "Active"
     }
     if (window.confirm(`This Product is currently ${b} ,Are You Sure Want To ${a} ????`)) {
+      
       axios
       .patch(`http://localhost:9000/api/statusProduct/${status}/${id}`)
       .then((res)=>{
           //console.log(res.data)
-            // if(res.data.success)
-            // {
+            if(res.data.success)
+            {
                 toast.success(res.data.msg, {
                     position: "top-center",
                     autoClose: 5000,
@@ -49,7 +51,13 @@ function Products() {
                     draggable: true,
                     progress: undefined,
                   });
-                  // window.location.reload();
+            }
+            else
+            {
+
+            }
+            history.goBack();
+                  //window.location.reload();
           
       })
       .catch((err)=>{

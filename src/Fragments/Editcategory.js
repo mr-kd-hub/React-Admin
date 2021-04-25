@@ -4,12 +4,12 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Addcategory() {
-    const [status,setStatus] = useState();
+function Editcategory({onSubmitt, id}) {
+    
     const [title,setTitle] = useState();
     const [categorylink,setCategorylink] = useState();
     const [image,setFile] = useState();
-  
+  const [state,setState] = useState();
     function onFileChange(obj)
     {
         setFile(obj.target.value) 
@@ -22,22 +22,18 @@ function Addcategory() {
     {
         setTitle(obj.target.value)
     }
-    function onStatusChange(obj)
-    {
-        setStatus(obj.target.value)
-    }
+    
     function onSubmitt(obj)
     {
       obj.preventDefault();
       const detail ={
         title:title,
         image:image,
-        link:categorylink,
-        status:status,
-        feature_to_home : true,
+        link:categorylink
       }
+      console.log(detail)
       axios
-      .post("http://localhost:9000/api/addCategory",detail)
+      .patch(`http://localhost:9000/api/updateCate/${id}`,detail)
       .then((res)=>{
           if(res.data.success)
           {
@@ -50,9 +46,7 @@ function Addcategory() {
               draggable: true,
               progress: undefined,
             });
-            setTitle("")
-            setFile("")
-            setCategorylink("")
+            
           }
           else
           {
@@ -71,7 +65,25 @@ function Addcategory() {
         console.log("Error in add category api call..")
       });
     }
+    useEffect(() => {
+       // console.log(id)
+        axios
+          .get(`http://localhost:9000/api/Category/${id}`)
+          .then((res) => {
+              console.log(res.data.info)
+            if (res.data.msg === "Success") {
+            const  { title,image, link } = res.data.info[0];
 
+            setTitle(title)
+            setFile(image)
+            setCategorylink(link)
+            
+            }
+          })
+          .catch((err) => {
+            console.log("problem in login : " + err);
+          });
+      }, []);
    
   return (      
     <div>
@@ -100,7 +112,7 @@ function Addcategory() {
               value={image}
               name="image"
             />
-            {image}
+           
           </div>
           <div class="form-group">
             <label for="exampleFormControlTextarea1">
@@ -115,42 +127,12 @@ function Addcategory() {
               rows="3"
             ></textarea>
           </div>
-          <div className="form-group">
-            <label class="form-check-label mr-4" for="inlineRadio1">
-              Status
-            </label>
-            <div class="form-check form-check-inline">
-              <input
-                onChange={onStatusChange}
-                class="form-check-input"
-                type="radio"
-                name="Status"
-                id="inlineRadio1"
-                value="true"
-              />
-              <label class="form-check-label" for="inlineRadio1">
-                Active
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-              onChange={onStatusChange}
-                class="form-check-input"
-                type="radio"
-                name="Status"
-                id="inlineRadio2"
-                value="false"
-              />
-              <label class="form-check-label" for="inlineRadio2">
-                Deactive
-              </label>
-            </div>
-          </div>
-          <button class="btn btn-primary">Add Category</button>
+          
+          <button class="btn btn-primary">Save</button>
         </form>
       </div>
     </div>
   );
 }
 
-export default Addcategory;
+export default Editcategory;

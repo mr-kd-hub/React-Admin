@@ -25,7 +25,8 @@ import Productfragment from "../Fragments/Productfragment";
 import Categoryfragment from "../Fragments/Categoryfragment";
 import Usersdetail from "../Fragments/Usersdetail";
 import Feedback from "../Fragments/Feedback";
-
+import SettingsIcon from '@material-ui/icons/Settings';
+import Site from "../Fragments/Site";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +74,9 @@ export default function Dashboard() {
       
       case "FEEDBACK":
         return <Feedback/>
+
+      case "SETTING":
+        return <Site />
 
       default:
         break;
@@ -146,6 +150,15 @@ export default function Dashboard() {
                       <FeedbackSharpIcon />
                     </ListItemIcon>
                     <ListItemText primary="Feedback" />
+                  </ListItem>
+                </List>
+                <Divider />
+                <List>
+                  <ListItem button onClick={e=>setFregment("SETTING")}>
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Site Setting" />
                   </ListItem>
                 </List>
                 <Divider />
