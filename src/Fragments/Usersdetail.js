@@ -15,7 +15,7 @@ export default function Usersdetail() {
 
   return (
     <>
-    <h2>Customers</h2>
+     <h3 class="container">Customers</h3>
       <table class="table">
         <thead class="thead-dark">
           <tr>

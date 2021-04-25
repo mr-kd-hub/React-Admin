@@ -70,7 +70,7 @@ function Editcategory({onSubmitt, id}) {
         axios
           .get(`http://localhost:9000/api/Category/${id}`)
           .then((res) => {
-              console.log(res.data.info)
+              //console.log(res.data.info)
             if (res.data.msg === "Success") {
             const  { title,image, link } = res.data.info[0];
 

@@ -63,6 +63,7 @@ export default function Productfragment() {
   return (
     <>
      <div className={classes.root}>
+     <h3 class="container">Manage Product</h3>
         <AppBar position="static" color="default">
           <Tabs
             value={value}

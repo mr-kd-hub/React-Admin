@@ -60,6 +60,7 @@ export default function Homefragment() {
 
   return (
     <div className={classes.root}>
+     <h3 class="container">Manage Category</h3>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -74,6 +75,7 @@ export default function Homefragment() {
           <Tab label="Add Category" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
+     
       <TabPanel value={value} index={0}>
         <Box>
           {/* Display */}

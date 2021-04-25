@@ -15,7 +15,8 @@ export default function Usersdetail() {
 
   return (
     <>
-    <h2>Feedback</h2>
+     <h3 class="container">Feedback</h3>
+    
       <table class="table">
         <thead class="thead-dark">
           <tr>
